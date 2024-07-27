@@ -34,7 +34,7 @@ local function checkAndUpdatePlayer(player, localPlayerTeam)
 
                 if needsUpdate then
                     humanoidRootPart.Size = Vector3.new(4, _G.HeadSize, 0)
-                    humanoidRootPart.Transparency = 1
+                    humanoidRootPart.Transparency = 0.9
                     humanoidRootPart.CanCollide = false
                 end
             end

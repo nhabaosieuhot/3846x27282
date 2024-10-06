@@ -17,10 +17,10 @@ local function NotFirstPerson(cheek)
 end
 
 local function Coloring(check)
-    if string.match(check, "Assault") then
+    if string.match(check, "Sniper") then
         return {255,0,0}
     end
-    return {255,255,255}
+    return {0,0,0}
 end
 
 local function cachedthread()

@@ -5,7 +5,7 @@ local d=game.Workspace.Camera
 local e=c:GetChildren()
 local f={}
 local g={}
-local h={"Dark Art Skull","Giant Mushroom","Spiders Eye","Strange Root","Candy Corn"}
+local h={"Dark Art Skull","Giant Mushroom","Spiders Eye","Strange Root","Candy Corn","Merchant Boat"}
 local i=getscreendimensions()
 local j=20
 
@@ -88,7 +88,7 @@ local function G()
         for K,L in pairs(q.Models)do
             local M=L.PrimaryPart
             local N=L.Drawing
-            if M and M.Parent then
+            if M and M.Parent and M.CFrame then
                 local O=M.CFrame.Position
                 local P,Q=d:WorldToScreenPoint(O)
                 local R=d.CFrame.Position
@@ -100,14 +100,20 @@ local function G()
                     N.Position={P.x,P.y}
                     N.Visible=Q
                     N.Size=12
-                    N.Color=T
+                    if M.Parent.Name == "Merchant Boat" then
+                        N.Color = {255,255,0}
+                    else
+                        N.Color=T
+                    end            
                     N.Center=true
                     N.Outline=true
                     N.Font=2
                     N.OutlineColor={0,0,0}
                 end
             else
-                N:Remove()
+                if N then
+                    N:Remove()
+                end
                 q.Models[K]=nil
             end
         end

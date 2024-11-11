@@ -63,6 +63,7 @@ local function Reeling()
             local reel = playerGui:FindFirstChild("reel")
             if reel and reel:FindFirstChild("bar") then
                 if current - cached > 3 then
+                    print("Working [Ignore]")
                     local playerbar = reel.bar:FindFirstChild("playerbar")
                     
                     if playerbar then
@@ -72,14 +73,22 @@ local function Reeling()
                             if fishX then
                                 local clampedX = math.clamp(fishX, 0.15, 0.9)
                                 playerbar:SetMemoryValue(0x2f0, "float", clampedX)
+                            else
+                                print("Failed to get fishbar Value")
                             end
+                        else
+                            print("Failed to find fishbar")
                         end
+                    else
+                        print("Failed to find playerbar")
                     end
                 end
             else
+                print("Failed Find ReelUI')
                 cached = current
             end
         else
+            print("Failed to find PlayerUI")
             cached = current
         end
         wait()

@@ -46,9 +46,17 @@ local function getCasting()
                                                 end)
                                                 
                                                 if success and perfect_value then
+                                                    current = tick()
+                                                    
                                                     if perfect_value >= 0.98 and perfect_value <= 1 then
                                                         if pressed then
-                                                            current = tick()
+                                                            mouse1release()
+                                                            pressed = false
+                                                            cached = current
+                                                        end
+                                                    elseif pressed then
+                                                        local holdTime = current - cached
+                                                        if holdTime >= 5 then
                                                             mouse1release()
                                                             pressed = false
                                                             cached = current

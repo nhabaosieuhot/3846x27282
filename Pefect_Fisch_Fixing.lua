@@ -1,9 +1,9 @@
 local function getCasting()
-    local pressed = false
     local cached = tick()
     
     local success, err = pcall(function()
         while true do
+            local pressed = false
             local current = tick()
             local players = findfirstchild(Game, "Players")
             if not players then wait() continue end
@@ -13,12 +13,22 @@ local function getCasting()
             
             local Character = getcharacter(localplayer)
             if Character then
-                local Tool = findfirstchildofclass(Character, "Tool")
-                if Tool then
-                    local values = findfirstchild(Tool, "values")
+                local Tools = findfirstchildofclass(Character, "Tool")
+                local RLuaTool = (game.Players.localPlayer.Character:FindFirstChildOfClass("Tool") and string.match(game.Players.localPlayer.Character:FindFirstChildOfClass("Tool").Name, "Rod")) and game.Players.localPlayer.Character:FindFirstChildOfClass("Tool")
+                if Tools then
+                    local values = findfirstchild(Tools, "values")
                     if values then
                         local casted = findfirstchild(values, "casted")
-                        if casted and string.match(getname(Tool), "Rod") and getvalue(casted) ~= true then
+                        if RLuaTool then
+                            local RluaValues = RLuaTool:FindFirstChild("values")
+                            if RluaValues then
+                                local RluaCast = RluaValues:FindFirstChild("casted")
+                                if RluaCast then
+                                    _G.CastedValue = RluaCast.Value
+                                end
+                            end
+                        end
+                        if _G.CastedValue ~= true then
                             if not pressed then
                                 mouse1press()
                                 pressed = true
@@ -45,20 +55,19 @@ local function getCasting()
                                                         pressed = false
                                                         cached = current
                                                     end
-                                                else
-                                                    if current - cached > 5 then
-                                                        if pressed then
-                                                            mouse1press()
-                                                            wait(0.5)
-                                                            mouse1release()
-                                                            pressed = false
-                                                            cached = current
-                                                        end
-                                                    end
                                                 end
                                             end
                                         end
                                     end
+                                end
+                            end
+                            if current - cached > 5 then
+                                if pressed then
+                                    mouse1press()
+                                    wait(0.5)
+                                    mouse1release()
+                                    pressed = false
+                                    cached = current
                                 end
                             end
                         end

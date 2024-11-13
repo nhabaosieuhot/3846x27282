@@ -14,46 +14,45 @@ local function getCasting()
             local Character = getcharacter(localplayer)
             if Character then
                 local Tools = findfirstchildofclass(Character, "Tool")
-                local RLuaTool = (game.Players.localPlayer.Character:FindFirstChildOfClass("Tool") and string.match(game.Players.localPlayer.Character:FindFirstChildOfClass("Tool").Name, "Rod")) and game.Players.localPlayer.Character:FindFirstChildOfClass("Tool")
-                if Tools then
-                    local values = findfirstchild(Tools, "values")
-                    if values then
-                        local casted = findfirstchild(values, "casted")
-                        if RLuaTool then
-                            local RluaValues = RLuaTool:FindFirstChild("values")
-                            if RluaValues then
-                                local RluaCast = RluaValues:FindFirstChild("casted")
-                                if RluaCast then
+                if Tools and string.match(getname(Tools), "Rod") then
+                    local RluaCharacter = game.Players.localPlayer.Character
+                    if RluaCharacter and type(RluaCharacter) == "table" then
+                        local RLuaTool = RluaCharacter:FindFirstChildOfClass("Tool")
+                        if RLuaTool and string.match(RLuaTool.Name, "Rod") then
+                            local RLuaValues = RLuaTool:FindFirstChild("values")
+                            if RLuaValues and type(RLuaValues) == "table" then
+                                local RluaCast = RLuaValues:FindFirstChild("casted")
+                                if RluaCast and type(RluaCast) == "table" then
                                     _G.CastedValue = RluaCast.Value
                                 end
                             end
-                        end
-                        if _G.CastedValue ~= true then
-                            if not pressed then
-                                mouse1press()
-                                pressed = true
-                                cached = tick()
-                            end
-                            
-                            local humanoidRootPart = findfirstchild(Character, "HumanoidRootPart")
-                            if humanoidRootPart then
-                                local power = findfirstchild(humanoidRootPart, "power")
-                                if power then
-                                    local powerbar = findfirstchild(power, "powerbar")
-                                    if powerbar then
-                                        local bar = findfirstchild(powerbar, "bar")
-                                        if bar then
-                                            local success, perfect_value = pcall(function()
-                                                return getmemoryvalue(bar, 0x308, "float")
-                                            end)
-                                            
-                                            if success and perfect_value then
-                                                if perfect_value >= 0.98 and perfect_value <= 1 then
-                                                    if pressed then
-                                                        current = tick()
-                                                        mouse1release()
-                                                        pressed = false
-                                                        cached = current
+                            if _G.CastedValue ~= true then
+                                if not pressed then
+                                    mouse1press()
+                                    pressed = true
+                                    cached = tick()
+                                end
+                                
+                                local humanoidRootPart = findfirstchild(Character, "HumanoidRootPart")
+                                if humanoidRootPart then
+                                    local power = findfirstchild(humanoidRootPart, "power")
+                                    if power then
+                                        local powerbar = findfirstchild(power, "powerbar")
+                                        if powerbar then
+                                            local bar = findfirstchild(powerbar, "bar")
+                                            if bar then
+                                                local success, perfect_value = pcall(function()
+                                                    return getmemoryvalue(bar, 0x308, "float")
+                                                end)
+                                                
+                                                if success and perfect_value then
+                                                    if perfect_value >= 0.98 and perfect_value <= 1 then
+                                                        if pressed then
+                                                            current = tick()
+                                                            mouse1release()
+                                                            pressed = false
+                                                            cached = current
+                                                        end
                                                     end
                                                 end
                                             end
@@ -61,15 +60,15 @@ local function getCasting()
                                     end
                                 end
                             end
-                            if current - cached > 5 then
-                                if pressed then
-                                    mouse1press()
-                                    wait(0.5)
-                                    mouse1release()
-                                    pressed = false
-                                    cached = current
-                                end
-                            end
+                        end
+                    end
+                    if current - cached > 5 then
+                        if pressed then
+                            mouse1press()
+                            wait(0.5)
+                            mouse1release()
+                            pressed = false
+                            cached = current
                         end
                     end
                 end

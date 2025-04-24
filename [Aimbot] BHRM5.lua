@@ -219,7 +219,7 @@ local function Update()
             
             if TeammateKeys[Key] then
                 Seen[Key] = true
-                remove_model_data(Key)
+                pcall(remove_model_data(Key))
                 continue
             end
             
@@ -258,7 +258,7 @@ local function Update()
 	for Key, Model in pairs(TrackedModels) do
 		local Root = findfirstchild(Model, "Root")
 		if not Root or not Seen[Key] then
-			remove_model_data(Key)
+			pcall(remove_model_data(Key))
 			TrackedModels[Key] = nil
 		end
 	end
